@@ -3,7 +3,7 @@ Main.MainMenu = function(game)
 {
     this.title = null;
     this.infoNeedMorePlayer = null;
-    //this.need_players = 0;
+    this.numActionStart = [];
 }
 
 Main.MainMenu.prototype.create = function()
@@ -15,7 +15,6 @@ Main.MainMenu.prototype.create = function()
     this.infoNeedMorePlayer = this.game.add.text(0, 0, '', { fontSize: '32px', fill: '#fff', boundsAlignH: "center", boundsAlignV: "middle" });
     this.infoNeedMorePlayer.setTextBounds(0, 300, 800, 100);
 
-    //this.infoNeedMorePlayer.text = "Besoin de 1 joueur supplémentaire !";
     var that = this;
     //Si un joueur ce connecte
     Main.airconsole.onConnect = function(device_id) 
@@ -38,28 +37,32 @@ Main.MainMenu.prototype.create = function()
         }
         that.checkFourPlayer();
     };
+
     
-    /*
 	Main.airconsole.onMessage = function(device_id, data) 
     {
     	if(data.action === "Start")
     	{
-    		Main.airconsole.message(device_id, {action: "Play"});
-    		that.state.start('Play');
+            var player = Main.airconsole.convertDeviceIdToPlayerNumber(device_id);
+            
+            if(player != undefined)
+            {
+                that.numActionStart[player] = device_id;
+                console.log(that.numActionStart);
+                that.infoNeedMorePlayer.text = "Start : "+that.numActionStart.length;
+            }
+            
+            
+            if(that.numActionStart.length >= 4)
+            {
+                Main.airconsole.broadcast({action:"Play"});
+                that.state.start('Play');
+            }
+            
     	}
        
     };
-    */
-}
-
-Main.MainMenu.prototype.update = function()
-{
-	
-}
-
-Main.MainMenu.prototype.startGame = function(from)
-{
-	
+    
 }
 
 Main.MainMenu.prototype.checkFourPlayer = function()
@@ -69,7 +72,7 @@ Main.MainMenu.prototype.checkFourPlayer = function()
     var active_players = Main.airconsole.getActivePlayerDeviceIds();
     //on récupére le nombre de controller connecté
     var connected_controllers = Main.airconsole.getControllerDeviceIds();
-    console.log('checkFourPlayer');
+    console.log(active_players);
 
 
     //si le nombre de joueur active est == 0
@@ -78,13 +81,16 @@ Main.MainMenu.prototype.checkFourPlayer = function()
         //si le nombre de controller est supérieur ou équal à 4
         if(connected_controllers.length >= 4)
         {
+            this.numActionStart = [];
             //on set les 4 premiers controller en player active
             Main.airconsole.setActivePlayers(4);
+            this.infoNeedMorePlayer.text = "Press Start";
             //on envoie à chacun des controlleurs le changmeent d'état
+            //Main.airconsole.broadcast({action:"Play"});
 
             //DEBUG
             //on change d'état à Play
-            this.state.start('Play');
+           
         }
         else if(connected_controllers.length === 3)//sinon si le nombre de controlleur est == 3
         {

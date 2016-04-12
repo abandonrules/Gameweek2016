@@ -11,6 +11,7 @@ Main.MainMenu.prototype.preload = function()
 
 Main.MainMenu.prototype.create = function()
 {
+
 	this.btn_start = this.game.add.sprite(this.game.world.height/2+128, 256, 'btn_start');
     this.btn_start.inputEnabled = true;
     this.btn_start.anchor.set(0.5);
@@ -19,11 +20,12 @@ Main.MainMenu.prototype.create = function()
     var that = this;
     Main.airconsole.onMessage = function(from, data) 
     {
+        //console.log(data);
+        
         if(data.action == "Play")
         {
         	that.state.start('Play');
         }
-
     };
     
 }
