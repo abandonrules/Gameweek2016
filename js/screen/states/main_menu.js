@@ -2,23 +2,44 @@ var Main = Main || {};
 Main.MainMenu = function(game)
 {
     this.title = null;
-    this.info_device = null;
-};
+    this.infoNeedMorePlayer = null;
+    //this.need_players = 0;
+}
 
 Main.MainMenu.prototype.create = function()
 {
     console.log("MainMenu");
+    console.log(Main.airconsole);
+    //affichage du titre
+    this.title = this.game.add.text(this.game.world.width/2-250, 64, 'RETARDED BATTLE REVENGE', { fontSize: '32px', fill: '#fff' });
+    this.infoNeedMorePlayer = this.game.add.text(0, 0, '', { fontSize: '32px', fill: '#fff', boundsAlignH: "center", boundsAlignV: "middle" });
+    this.infoNeedMorePlayer.setTextBounds(0, 300, 800, 100);
 
-    this.title = this.game.add.text(this.game.world.height/2, this.game.world.width/2, 'MainMenu', { fontSize: '32px', fill: '#fff' });
-    this.info_device = this.game.add.text(this.game.world.height/2, this.game.world.width/2-64, '', { fontSize: '32px', fill: '#fff' });
-
-	var that = this;
-
+    //this.infoNeedMorePlayer.text = "Besoin de 1 joueur supplémentaire !";
+    var that = this;
+    //Si un joueur ce connecte
     Main.airconsole.onConnect = function(device_id) 
     {
-        that.info_device.text = "Device connect : "+device_id;
+       console.log('onConnect');
+       that.checkFourPlayer();
     }
+    
+    //Si un joueur ce déconnecte
+    Main.airconsole.onDisconnect = function(device_id) 
+    {
+        console.log('onDisconnect');
+        var player = Main.airconsole.convertDeviceIdToPlayerNumber(device_id);
 
+        if (player != undefined) 
+        {
+            // Player that was in game left the game.
+            // Setting active players to length 0.
+            Main.airconsole.setActivePlayers(0);
+        }
+        that.checkFourPlayer();
+    };
+    
+    /*
 	Main.airconsole.onMessage = function(device_id, data) 
     {
     	if(data.action === "Start")
@@ -28,6 +49,7 @@ Main.MainMenu.prototype.create = function()
     	}
        
     };
+    */
 }
 
 Main.MainMenu.prototype.update = function()
@@ -38,4 +60,46 @@ Main.MainMenu.prototype.update = function()
 Main.MainMenu.prototype.startGame = function(from)
 {
 	
+}
+
+Main.MainMenu.prototype.checkFourPlayer = function()
+{
+    console.log('checkFourPlayer');
+    //on récupére le nombre de joueur active
+    var active_players = Main.airconsole.getActivePlayerDeviceIds();
+    //on récupére le nombre de controller connecté
+    var connected_controllers = Main.airconsole.getControllerDeviceIds();
+    console.log('checkFourPlayer');
+
+
+    //si le nombre de joueur active est == 0
+    if(active_players.length === 0)
+    {
+        //si le nombre de controller est supérieur ou équal à 4
+        if(connected_controllers.length >= 4)
+        {
+            //on set les 4 premiers controller en player active
+            Main.airconsole.setActivePlayers(4);
+            //on envoie à chacun des controlleurs le changmeent d'état
+
+            //DEBUG
+            //on change d'état à Play
+            this.state.start('Play');
+        }
+        else if(connected_controllers.length === 3)//sinon si le nombre de controlleur est == 3
+        {
+            //on affiche qu'il manque 1 joueurs
+            this.infoNeedMorePlayer.text = "Besoin de 1 joueur supplémentaire !";
+        }
+        else if(connected_controllers.length === 2)//etc
+        {
+            //on affiche qu'il manque 2 joueurs
+            this.infoNeedMorePlayer.text = "Besoin de 2 joueurs supplémentaire !";
+        }
+        else if(connected_controllers.length === 1)//etc
+        {
+            //on affiche qu'il manque 3 joueurs
+            this.infoNeedMorePlayer.text = "Besoin de 3 joueurs supplémentaire !";
+        }
+    }
 }
