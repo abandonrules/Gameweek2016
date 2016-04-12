@@ -15,13 +15,29 @@
 
 	function create()
 	{
+
+		var iMax = 3;
+		var jMax = 2;
+		var infos = new Array();
+
+		for (i=0; i<iMax; i++) 
+		{
+			infos[i]=new Array();
+		 	for (j=0; j<jMax; j++) 
+		 	{
+		  		infos[i][j] = "";
+		 	}
+		}
+		console.log(infos);
+
 		console.log("main");
 		//Main.game.canvas.id = 'canvas';
 
 		game.state.add('Boot', Main.Boot);
 		game.state.add('Preloader', Main.Preloader);
 		game.state.add('MainMenu', Main.MainMenu);
-		game.state.add('Play', Main.Play);
+		game.state.add('etatPlay', Main.etatPlay);
+		game.state.add('etatChoixAction', Main.etatChoixAction);
 
 		game.state.start('Boot');
 	}

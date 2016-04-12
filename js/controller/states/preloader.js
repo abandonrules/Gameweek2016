@@ -62,5 +62,5 @@ Main.Preloader.prototype.create = function()
 
 Main.Preloader.prototype.onStart = function()
 {
-	this.state.start('MainMenu');
+	this.state.start('etatPlay');
 }
