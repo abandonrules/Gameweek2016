@@ -19,13 +19,32 @@ Main.Play = function(game)
     //this.delay = this.time.now() + 10;
     this.timer;
     Main.Play.isReady = true;
+    
+    // HUD Général
+    this.infoChrono;
+    
+    this.infoNamePlayer1;
+    this.infoLifePlayer1;
+    this.infoReadyPlayer1;
+    
+    this.infoNamePlayer2;
+    this.infoLifePlayer2;
+    this.infoReadyPlayer2;
+    
+    this.infoNamePlayer3;
+    this.infoLifePlayer3;
+    this.infoReadyPlayer3;
+    
+    this.infoNamePlayer4;
+    this.infoLifePlayer4;
+    this.infoReadyPlayer4;
 };
 
 Main.Play.prototype.create = function()
 {
     console.log("Play");
     //DEBUG
-    this.add.text(16, 16, "PLAY STATE", { font: "16px Arial", fill: "#ffffff" });
+    this.add.text(16, 16, "PLAY STATE", { font: "16px norse", fill: "#ffffff" });
 	this.setupConsole();
 
     //Créer UI_Manager
@@ -35,11 +54,14 @@ Main.Play.prototype.create = function()
     this.setupPlayers();
     //Setup timer
     this.setupTimer();
+    // Affichage HUD
+    this.UIManager();
 }
 
 Main.Play.prototype.update = function()
 {
     //console.log(this.time.elapsed);
+    this.infoChrono.text = ""+(this.timerByTurn-(Math.round(this.timer.ms/1000)));
 }
 
 Main.Play.prototype.setupGame = function()
@@ -246,4 +268,52 @@ Main.Play.prototype.createMap = function()
     var tile = this.tiles.getRandom();
     tile.animationFall();
     */
+}
+
+Main.Play.prototype.UIManager = function()
+{
+    var textSpace = 75;         // Espace entre le texte joueur et vie
+    var textOffset = 25;        // Espace entre le bord gauche de l'écran et les texte de gauche
+    var textPosRight = 1600;    // Position des textes à droite de l'écran
+    var textPosBottom = 925;    // Position des textes en bas de l'écran
+    
+    // HUD
+    this.infoChrono = this.add.text(0, 0, this.timer.ms, { font: "128px norse", fill: "#ffffff" });
+    this.infoChrono.setTextBounds(960, textOffset, 0, 0);
+
+    this.infoNamePlayer1 = this.add.text(0, 0, "Joueur 1", { font: "48px norse", fill: "#9759d8" });
+    this.infoNamePlayer1.setTextBounds(textOffset, textOffset, 0, 0);
+    
+    //this.infoLifePlayer1 = this.add.text(0, 0, "Vie : "+this.players[1].hp, { font: "32px norse", fill: "#9759d8" });
+    //this.infoLifePlayer1.setTextBounds(textOffset, textOffset+textSpace, 0, 0);
+    this.infoLifePlayer1 = this.add.sprite(textOffset, textSpace, "hearts");
+    this.infoLifePlayer1.scale.setTo(0.4, 0.4);
+    this.infoLifePlayer1.frame = 3;
+    
+    this.infoReadyPlayer1 = this.add.sprite(200, textOffset, "hud_valid");
+    this.infoReadyPlayer1.visible = false;
+    
+    this.infoNamePlayer2 = this.add.text(0, 0, "Joueur 2", { font: "48px norse", fill: "#4ea4e3" });
+    this.infoNamePlayer2.setTextBounds(textPosRight, textOffset, 0, 0);
+    this.infoLifePlayer2 = this.add.sprite(textPosRight, textSpace, "hearts");
+    this.infoLifePlayer2.scale.setTo(0.4, 0.4);
+    this.infoLifePlayer2.frame = 7;
+    this.infoReadyPlayer2 = this.add.sprite(textPosRight + 175, textOffset, "hud_valid");
+    this.infoReadyPlayer2.visible = false;
+    
+    this.infoNamePlayer3 = this.add.text(0, 0, "Joueur 3", { font: "48px norse", fill: "#ff9933" });
+    this.infoNamePlayer3.setTextBounds(textOffset, textPosBottom, 0, 0);
+    this.infoLifePlayer3 = this.add.sprite(textOffset, textPosBottom + 50, "hearts");
+    this.infoLifePlayer3.scale.setTo(0.4, 0.4);
+    this.infoLifePlayer3.frame = 11;
+    this.infoReadyPlayer3 = this.add.sprite(200, textPosBottom, "hud_valid");
+    this.infoReadyPlayer3.visible = false;
+    
+    this.infoNamePlayer4 = this.add.text(0, 0, "Joueur 4", { font: "48px norse", fill: "#1fd866" });
+    this.infoNamePlayer4.setTextBounds(textPosRight, textPosBottom, 0, 0);
+    this.infoLifePlayer3 = this.add.sprite(textPosRight, textPosBottom + 50, "hearts");
+    this.infoLifePlayer3.scale.setTo(0.4, 0.4);
+    this.infoLifePlayer3.frame = 15;
+    this.infoReadyPlayer4 = this.add.sprite(textPosRight + 175, textPosBottom, "hud_valid");
+    this.infoReadyPlayer4.visible = false;
 }
