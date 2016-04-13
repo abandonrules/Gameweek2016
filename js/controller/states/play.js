@@ -67,25 +67,7 @@ Main.Play.prototype.create = function()
 
 Main.Play.prototype.update = function()
 {
-	if(this.stick.isDown)
-    {
-        if (this.stick.direction === Phaser.LEFT)
-        {
-           this.move("left");
-        }
-        else if (this.stick.direction === Phaser.RIGHT)
-        {
-            this.move("right");
-        }
-        else if (this.stick.direction === Phaser.UP)
-        {
-           this.move("up");
-        }
-    }
-    else
-    {
-        this.move("stop");
-    }
+   
 }
 
 Main.Play.prototype.quitGame = function()

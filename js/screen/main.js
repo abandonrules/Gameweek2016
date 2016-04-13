@@ -4,7 +4,7 @@
 
 	function init()
 	{
-		game = new Phaser.Game(800,600, Phaser.AUTO, 'gameContainer', { preload: preload, create: create});
+		game = new Phaser.Game(1920,1080, Phaser.AUTO, 'gameContainer', { preload: preload, create: create});
 	}
 
 	function preload () 

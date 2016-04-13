@@ -72,9 +72,7 @@ Main.MainMenu.prototype.checkFourPlayer = function()
     var active_players = Main.airconsole.getActivePlayerDeviceIds();
     //on récupére le nombre de controller connecté
     var connected_controllers = Main.airconsole.getControllerDeviceIds();
-    console.log(active_players);
-
-
+    
     //si le nombre de joueur active est == 0
     if(active_players.length === 0)
     {
