@@ -31,13 +31,17 @@ Main.Preloader.prototype.init = function()
 
 Main.Preloader.prototype.preload = function()
 {
-	this.game.load.image('arrow_up', 'assets/controller/arrow_up.png');
-    this.game.load.image('arrow_down', 'assets/controller/arrow_down.png');
-    this.game.load.image('arrow_left', 'assets/controller/arrow_left.png');
-    this.game.load.image('arrow_right', 'assets/controller/arrow_right.png');
+//	this.game.load.image('arrow_up', 'assets/controller/arrow_up.png');
+//    this.game.load.image('arrow_down', 'assets/controller/arrow_down.png');
+//    this.game.load.image('arrow_left', 'assets/controller/arrow_left.png');
+//    this.game.load.image('arrow_right', 'assets/controller/arrow_right.png');
 
     //this.load.atlas('generic', 'assets/controller/generic-joystick.png', 'assets/controller/generic-joystick.json');
-    this.load.atlas('dpad', 'assets/controller/dpad.png', 'assets/controller/dpad.json');
+//    this.load.atlas('dpad', 'assets/controller/dpad.png', 'assets/controller/dpad.json');
+		this.game.load.image('btn_add_action', 'assets/controller/btn_add_action.png');
+		this.game.load.image('btn_no_action', 'assets/controller/btn_no_action.png');
+		this.game.load.spritesheet('button_valid', 'assets/controller/btn_valid.png', 128,128);
+		this.game.load.image('imageFond', 'assets/controller/800bleu.png');
 }
 
 Main.Preloader.prototype.fileLoaded = function(progress)

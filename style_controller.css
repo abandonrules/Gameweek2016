@@ -21,3 +21,15 @@ html,body
     width: 100%;
     height: 100%;
 }
+
+@font-face{  
+    font-family: 'norse';  
+    src: url('assets/font/norsebold-webfont.ttf') 
+    format('truetype');
+}
+
+body {    
+  font-family: 'norse';
+  }
+
+.fontLoader {    position: absolute;    left: -1000px;}
