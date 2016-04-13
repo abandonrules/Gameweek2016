@@ -13,9 +13,9 @@ Main.etatPlay.prototype.preload = function()
 
 Main.etatPlay.prototype.create = function()
 {
-	this.bg1 = this.game.add.sprite(0,0, 'imageFond');
-	this.bg2 = this.game.add.sprite(0,600, 'imageFond');
-	this.bg3 = this.game.add.sprite(0,1200, 'imageFond');
+	this.bg1 = this.game.add.sprite(0,0, 'imgBackgroundBlue');
+	this.bg2 = this.game.add.sprite(0,600, 'imgBackgroundBlue');
+	this.bg3 = this.game.add.sprite(0,1200, 'imgBackgroundBlue');
 
 	this.ecran1();
 
@@ -28,11 +28,6 @@ Main.etatPlay.prototype.ecran1 = function()
 {
 	var width = 800;
 	var height = 600;
-
-	var stylePV = { font: "50px norse", fill: "#ff0044", align: "center" };
-	var textPV = this.add.text(width, 0, "PV : 3", stylePV);
-	textPV.anchor.set(1,0);
-	console.log(Main);
 
 
 	var textInfo = this.add.text(width/2, height/4, "Choisis tes actions pour ce tour", Main.styleTextInfo);
@@ -76,7 +71,7 @@ Main.etatPlay.prototype.ecran1 = function()
 		}
 	}
 
-	this.btn_finish = this.game.add.button(width, height , 'button_valid', actionOnClick, this, null, 0,1,2);
+	this.btn_finish = this.game.add.button(width-60, height-50 , 'button_valid', actionOnClick, this, null, 0,1,2);
 	this.btn_finish.anchor.set(1,1);
 };
 
@@ -104,7 +99,7 @@ Main.etatPlay.prototype.ecran2 = function()
 	console.log(Main);
 
 
-	var textInfo = this.add.text(width/2, height/4 +600, "GROS PD", Main.styleTextInfo);
+	var textInfo = this.add.text(width/2, height/4 +600, "Choisissez une action", Main.styleTextInfo);
 	textInfo.anchor.set(0.5);
 
 	var nbActions = 3;
@@ -120,28 +115,42 @@ Main.etatPlay.prototype.ecran2 = function()
 			else 
 				decalage = 75;
 
-			if(nbButtonsAction < nbActions)
+			if(nbButtonsAction !=5)
 			{
 				var img = this.game.add.sprite(width/2 - decalage + (j*decalage) , (height/2 + i * 150) + 600, 'btn_add_action');
     			img.inputEnabled = true;
-    			img.events.onInputDown.add(this.wesh, this);
+	    		img.events.onInputDown.add(this.wesh, this);
     			img.anchor.set(0.5);
     			nbButtonsAction ++;
-			}
-			else if(nbButtonsAction<4)
-			{
-				var img = this.game.add.sprite(width/2 - decalage + (j*decalage) ,(height/2 + i * 150) + 600, 'btn_no_action');
-    		//	this.btn_start.inputEnabled = true;
-    			img.anchor.set(0.5);
-    			nbButtonsAction ++;
-			}
-			else if(nbButtonsAction == 4)
-			{
-				var img = this.game.add.sprite(width/2 + 74  , (height/2 + i * 150)+600, 'btn_no_action');
-    		//	this.btn_start.inputEnabled = true;
-    			img.anchor.set(0.5);
-    			nbButtonsAction ++;
+			
+			
+				if(nbButtonsAction == 4)
+				{
+					var img = this.game.add.sprite(width/2 + 74  , (height/2 + i * 150)+600, 'btn_add_action');
+    			//	this.btn_start.inputEnabled = true;
+  		  			img.anchor.set(0.5);
+   	 				nbButtonsAction ++;
+				}
+			
 			}
 		}
 	}
-}
+};
+
+Main.etatPlay.protoype.ecran3Sort = function()
+{
+	var width = 800;
+	var height = 600;
+
+
+	var textInfo = this.add.text(width/2, height/4 +1200, "Choisissez une direction vers laquelle lancer le sort", Main.styleTextInfo);
+	textInfo.anchor.set(0.5);
+
+
+	var img = this.game.add.sprite(width/2 - decalage + (j*decalage) , (height/2 + i * 150) + 600, 'btn_add_action');
+	img.inputEnabled = true;
+	img.events.onInputDown.add(this.wesh, this);
+	img.anchor.set(0.5);
+
+
+};

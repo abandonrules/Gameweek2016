@@ -41,7 +41,10 @@ Main.Preloader.prototype.preload = function()
 		this.game.load.image('btn_add_action', 'assets/controller/btn_add_action.png');
 		this.game.load.image('btn_no_action', 'assets/controller/btn_no_action.png');
 		this.game.load.spritesheet('button_valid', 'assets/controller/btn_valid.png', 128,128);
-		this.game.load.image('imageFond', 'assets/controller/800bleu.png');
+		this.game.load.image('imgBackgroundBlue', 'assets/controller/backgroundBlue.png');
+		this.game.load.image('imgBackgroundGreen', 'assets/controller/backgroundGreen.png');
+		this.game.load.image('imgBackgroundOrange', 'assets/controller/backgroundOrange.png');
+		this.game.load.image('imgBackgroundPurple', 'assets/controller/backgroundPurple.png');
 }
 
 Main.Preloader.prototype.fileLoaded = function(progress)
