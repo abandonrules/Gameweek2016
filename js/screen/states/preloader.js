@@ -25,17 +25,20 @@ Main.Preloader.prototype.init = function()
 	font: "32px Arial",
 	fill: "#ffffff",
 	align: "center" };
-	this.text = this.add.text(400, 300, "Loading: 0%", style);
+	this.text = this.add.text(960, 540, "Loading: 0%", style);
 	this.text.anchor.x = 0.5;
 
 }
 
 Main.Preloader.prototype.preload = function()
 {
-	this.game.load.image('sky', 'assets/screen/sky.png');
-    this.game.load.image('ground', 'assets/screen/platform.png');
-    this.game.load.image('star', 'assets/screen/star.png');
-    this.game.load.spritesheet('dude', 'assets/screen/dude.png', 32, 48);
+	
+    //this.game.load.spritesheet('dude', 'assets/screen/dude.png', 32, 48);
+    this.game.load.image('tileset', 'assets/screen/tileset.png');
+    this.game.load.tilemap('map', 'assets/screen/Map_1.json', null, Phaser.Tilemap.TILED_JSON);
+    this.game.load.spritesheet('tiles', 'assets/screen/tiles.png', 80, 80);
+    this.game.load.spritesheet('players', 'assets/screen/players.png', 80, 80);
+    this.game.load.image('bg', 'assets/screen/bg.jpg');
 
     this.load.onFileComplete.add(this.fileLoaded, this);
 }
@@ -62,5 +65,6 @@ Main.Preloader.prototype.create = function()
 
 Main.Preloader.prototype.onStart = function()
 {
-	this.state.start('MainMenu');
+	//this.state.start('MainMenu');
+	this.state.start('Play');
 }
