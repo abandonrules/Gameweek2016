@@ -16,7 +16,7 @@
 	function create()
 	{
 
-		game.world.setBounds(0, 0, 800, 1800); 
+		game.world.setBounds(0, 0, 800, 2400); 
 		Main.numeroJoueur;
 		// var iMax = 3;
 		// var jMax = 2;

@@ -45,6 +45,16 @@ Main.Preloader.prototype.preload = function()
 		this.game.load.image('imgBackgroundGreen', 'assets/controller/backgroundGreen.png');
 		this.game.load.image('imgBackgroundOrange', 'assets/controller/backgroundOrange.png');
 		this.game.load.image('imgBackgroundPurple', 'assets/controller/backgroundPurple.png');
+
+		this.game.load.spritesheet('bumperButton', 'assets/controller/bumper.png');
+		this.game.load.spritesheet('copieButton', 'assets/controller/copie.png');
+		this.game.load.spritesheet('deplacementButton', 'assets/controller/deplacement.png');
+		this.game.load.spritesheet('equilibreButton', 'assets/controller/equilibre.png');
+		this.game.load.spritesheet('invincibiliteButton', 'assets/controller/invincibilite.png');
+		this.game.load.spritesheet('flammeButton', 'assets/controller/flamme.png');
+		this.game.load.spritesheet('soinButton', 'assets/controller/soin.png');
+		this.game.load.spritesheet('supprButton', 'assets/controller/suppr.png');
+		this.game.load.spritesheet('teleportButton','assets/controller/teleport.png');
 }
 
 Main.Preloader.prototype.fileLoaded = function(progress)
