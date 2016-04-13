@@ -41,6 +41,7 @@
 		game.state.add('Preloader', Main.Preloader);
 		game.state.add('MainMenu', Main.MainMenu);
 		game.state.add('etatPlay', Main.etatPlay);
+		game.state.add('GameOver', Main.GameOver);
 	//	game.state.add('etatChoixAction', Main.etatChoixAction);
 
 		game.state.start('Boot');

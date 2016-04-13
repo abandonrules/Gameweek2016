@@ -79,5 +79,5 @@ Main.Preloader.prototype.create = function()
 
 Main.Preloader.prototype.onStart = function()
 {
-	this.state.start('etatPlay');
+	this.state.start('GameOver');
 }
