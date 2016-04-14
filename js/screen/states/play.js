@@ -3,6 +3,7 @@ Main.Play = function(game)
 {
     this.timerByTurn = 10;
     this.players = [];
+    this.currentPlayerAlive = 4;
     this.bonusList = [];
     //MAP
     this.HEIGHT_MAP = 10;
@@ -83,6 +84,10 @@ Main.Play.prototype.update = function()
     }
     
     // Check du gameover
+    if (this.currentPlayerAlive == 0)
+    {
+        this.state.start('MainMenu');   
+    }
 }
 
 Main.Play.prototype.setupUIManager = function()
