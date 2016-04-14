@@ -38,8 +38,7 @@ Main.Preloader.prototype.preload = function()
 
     //this.load.atlas('generic', 'assets/controller/generic-joystick.png', 'assets/controller/generic-joystick.json');
 //    this.load.atlas('dpad', 'assets/controller/dpad.png', 'assets/controller/dpad.json');
-		this.game.load.image('btn_add_action', 'assets/controller/btn_add_action.png');
-		this.game.load.image('btn_no_action', 'assets/controller/btn_no_action.png');
+		/*
 		this.game.load.spritesheet('button_valid', 'assets/controller/btn_valid.png', 128,128);
 		this.game.load.image('imgBackgroundBlue', 'assets/controller/backgroundBlue.png');
 		this.game.load.image('imgBackgroundGreen', 'assets/controller/backgroundGreen.png');
@@ -55,6 +54,10 @@ Main.Preloader.prototype.preload = function()
 		this.game.load.spritesheet('soinButton', 'assets/controller/soin.png');
 		this.game.load.spritesheet('supprButton', 'assets/controller/suppr.png');
 		this.game.load.spritesheet('teleportButton','assets/controller/teleport.png');
+		*/
+		this.game.load.spritesheet('button_valid', 'assets/controller/btn_valid.png', 128,128);
+		this.game.load.spritesheet('bg_play','assets/controller/bg_play.png',800,600);
+		this.game.load.spritesheet('btn_action','assets/controller/btn_action.png',128,128);
 }
 
 Main.Preloader.prototype.fileLoaded = function(progress)
@@ -79,5 +82,5 @@ Main.Preloader.prototype.create = function()
 
 Main.Preloader.prototype.onStart = function()
 {
-	this.state.start('GameOver');
+	this.state.start('MainMenu');
 }

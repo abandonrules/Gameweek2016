@@ -1,1 +1,29 @@
  timer = game.time.now + 100;
+
+//CONTROLLER
+this.hp;
+this.pa = this.base_pa;
+this.timer = 0;
+this.actions[this.pa];
+
+//ENVOIE INFO CONTROLLER
+
+
+Main.airconsole.message(AirConsole.SCREEN, {validation: this.actions});
+
+
+//GET INFO
+
+
+//CHECKS
+ //verifier l'envoie des info player vers le controller
+ //verifier la fenetre avec tous les bonus
+ //demander platform bonus + spritesheet
+ //ui_manager + vie + btn validation
+ //controlleur presque finie
+
+ //INFO
+ bleu : 1
+ orange : 2
+ vert : 3
+ violet : 4

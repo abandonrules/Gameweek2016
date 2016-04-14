@@ -12,6 +12,7 @@ Main.Boot.prototype.init = function()
 	//	Unless you specifically know your game needs to support multi-touch I would recommend setting this to 1
     this.input.maxPointers = 1;
     Main.airconsole = new AirConsole();
+    Main.styleTextInfo = { font: '50px norse', fill : '#ff0044', align: 'center',wordWrap: true, wordWrapWidth: 450};
     //  Phaser will automatically pause if the browser tab the game is in loses focus. You can disable that here:
     this.stage.disableVisibilityChange = true;
 

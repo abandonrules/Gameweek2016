@@ -21,7 +21,6 @@ Main.MainMenu.prototype.create = function()
     Main.airconsole.onMessage = function(from, data) 
     {
         //console.log(data);
-        
         if(data.action == "Play")
         {
         	that.state.start('Play');
