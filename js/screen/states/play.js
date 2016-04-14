@@ -76,10 +76,13 @@ Main.Play.prototype.create = function()
 
 Main.Play.prototype.update = function()
 {
+    // MAJ du Timer
     if(this.timer !== undefined)
     {
         this.infoChrono.text = ""+(this.timerByTurn-(Math.round(this.timer.ms/1000)));
     }
+    
+    // Check du gameover
 }
 
 Main.Play.prototype.setupUIManager = function()
@@ -95,13 +98,9 @@ Main.Play.prototype.setupUIManager = function()
 
     this.infoNamePlayer1 = this.add.text(0, 0, "Joueur 1", { font: "48px norse", fill: "#9759d8" });
     this.infoNamePlayer1.setTextBounds(textOffset, textOffset, 0, 0);
-    
-    //this.infoLifePlayer1 = this.add.text(0, 0, "Vie : "+this.players[1].hp, { font: "32px norse", fill: "#9759d8" });
-    //this.infoLifePlayer1.setTextBounds(textOffset, textOffset+textSpace, 0, 0);
     this.infoLifePlayer1 = this.add.sprite(textOffset, textSpace, "hearts");
     this.infoLifePlayer1.scale.setTo(0.4, 0.4);
     this.infoLifePlayer1.frame = 3;
-    
     this.infoReadyPlayer1 = this.add.sprite(200, textOffset, "hud_valid");
     this.infoReadyPlayer1.visible = false;
     
@@ -123,9 +122,9 @@ Main.Play.prototype.setupUIManager = function()
     
     this.infoNamePlayer4 = this.add.text(0, 0, "Joueur 4", { font: "48px norse", fill: "#1fd866" });
     this.infoNamePlayer4.setTextBounds(textPosRight, textPosBottom, 0, 0);
-    this.infoLifePlayer3 = this.add.sprite(textPosRight, textPosBottom + 50, "hearts");
-    this.infoLifePlayer3.scale.setTo(0.4, 0.4);
-    this.infoLifePlayer3.frame = 15;
+    this.infoLifePlayer4 = this.add.sprite(textPosRight, textPosBottom + 50, "hearts");
+    this.infoLifePlayer4.scale.setTo(0.4, 0.4);
+    this.infoLifePlayer4.frame = 15;
     this.infoReadyPlayer4 = this.add.sprite(textPosRight + 175, textPosBottom, "hud_valid");
     this.infoReadyPlayer4.visible = false;
 }
