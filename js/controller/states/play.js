@@ -65,7 +65,6 @@ Main.Play.prototype.getInfos = function(data)
     this.hp = data.info_player.hp || 3;
     this.bonus = data.info_player.bonus || [3];
     this.numberPlayer = data.info_player.number_player;
-    Main.playerID = this.numberPlayer;
     console.log(data.info_player.number_player);
     console.log(this.numberPlayer);
 
@@ -121,7 +120,6 @@ Main.Play.prototype.setupGame = function()
     for(var i = 0; i < 3; i++)
     {
         this.bgs.push(this.add.sprite(0, i*600, 'bg_play',this.numberPlayer));
-        Main.BGS = this.bgs;
     }
     this.setup_screen_1();
     this.setup_screen_2();

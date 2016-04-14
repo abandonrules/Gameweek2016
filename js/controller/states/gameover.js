@@ -4,13 +4,13 @@ var Main = Main || {};
  	this.btn_startOver = null;
 
  	this.bg = null;
- 	this.idPlayer = null;
+ 	this.idPlayer = 2;
  };
  
  Main.GameOver.prototype.preload = function()
  {
  	this.game.load.image('btn_startOver', 'assets/controller/btn_add_action.png');
- 	this.getInfos();
+ 	this.debugWesh();	
  };
  
  Main.GameOver.prototype.create = function()
@@ -28,10 +28,18 @@ var Main = Main || {};
  	var textReplay = this.add.text(this.game.world.centerX, 300, "voulez-vous rejouer ?", Main.styleTextInfo);
  	textReplay.anchor.set(0.5);
  
- 	this.btn_startOver = this.game.add.sprite(this.game.world.centerX, 400, 'btn_startOver');
+ 	this.btn_startOver = this.game.add.sprite(this.game.world.centerX-150, 400, 'btn_startOver');
  //    this.btn_startOver.inputEnabled = true;
      this.btn_startOver.anchor.set(0.5);
  //    this.btn_startOver.events.onInputDown.add(this.startGame, this);
+
+  	this.btn_startOver = this.game.add.sprite(this.game.world.centerX+150, 400, 'btn_startOver');
+ //    this.btn_startOver.inputEnabled = true;
+     this.btn_startOver.anchor.set(0.5);
  }
 
+Main.GameOver.prototype.debugWesh = function()
+{
+	this.bg = this.add.sprite(0, 0, 'bg_play',this.idPlayer);
+}
  
