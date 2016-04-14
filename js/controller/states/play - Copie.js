@@ -45,10 +45,10 @@ Main.Play.prototype.create = function()
     this.setupConsole();
     Main.airconsole.message(AirConsole.SCREEN, {action: "get_info_player"});
 
-   // var truc = this.game.add.button(0, 0 , 'button_valid', this.debugGameOver, this, null, 0,1,2);
+    var truc = this.game.add.button(0, 0 , 'button_valid', this.PD, this, null, 0,1,2);
 }
 
-Main.Play.prototype.debugGameOver = function()
+Main.Play.prototype.PD = function()
 {
     this.state.start('GameOver');
 }
@@ -122,8 +122,8 @@ Main.Play.prototype.setupGame = function()
         this.bgs.push(this.add.sprite(0, i*600, 'bg_play',this.numberPlayer));
     }
     this.setup_screen_1();
-    // this.setup_screen_2();
-    // this.setup_screen_3();
+    this.setup_screen_2();
+    this.setup_screen_3();
 
     //DEBUG
     //this.resetBTNAction();
@@ -136,56 +136,36 @@ Main.Play.prototype.setupGame = function()
 
 Main.Play.prototype.setup_screen_1 = function()
 {
-    var textInfo = this.add.text(300, 200, "Deplacement", Main.styleTextInfo);
+    var textInfo = this.add.text(400, 150, "Ajoute des actions pour ce tour", Main.styleTextInfo);
     textInfo.anchor.set(0.5);
 
     this.btnsAction = [];
 
-    // this.btnValidation =  this.game.add.button(740, 550 , 'button_valid', this.onValidation, this, null, 0,1,2);
-    // this.btnValidation.anchor.set(1,1);
-    // this.btnValidation.inputEnabled = false;
-    // this.btnValidation.visible = false;
+    this.btnValidation =  this.game.add.button(740, 550 , 'button_valid', this.onValidation, this, null, 0,1,2);
+    this.btnValidation.anchor.set(1,1);
+    this.btnValidation.inputEnabled = false;
+    this.btnValidation.visible = false;
 
-    var btn_up = this.add.sprite(200, 250, 'btn_action', 0);
-    btn_up.inputEnabled = true;
-    btn_up.events.onInputDown(this.act, this);
+    for(var i = 0; i < 3; i++)
+    {
+        var btn_action = this.add.sprite(200 + (128* i), 250, 'btn_action',0);
+        btn_action.id_slot_action = i;
+        btn_action.action_id = 0;
+        btn_action.inputEnabled = false;
+        btn_action.events.onInputDown.add(this.onAddAction, this);
+        this.btnsAction.push(btn_action);
+    }
 
-    var btn_right = this.add.sprite(328, 378, 'btn_action', 0);
-    btn_right.inputEnabled = true;
-    btn_right.events.onInputDown(this.act, this);
+    for(var i = 0; i < 2; i++)
+    {
+        var btn_action = this.add.sprite(264 + (128* i), 400, 'btn_action',0);
+        btn_action.id_slot_action = i+3;
+        btn_action.action_id = 0;
+        btn_action.inputEnabled = false;
+        btn_action.events.onInputDown.add(this.onAddAction, this);
+        this.btnsAction.push(btn_action);
+    }
 
-    var btn_down = this.add.sprite(200, 378, 'btn_action', 0);
-    btn_down.inputEnabled = true;
-    btn_down.events.onInputDown(this.act, this);
-
-    var btn_left = this.add.sprite(72, 378, 'btn_action', 0);
-    btn_left.inputEnabled = true;
-    btn_left.events.onInputDown(this.act, this);
-    // for(var i = 0; i < 3; i++)
-    // {
-    //     var btn_action = this.add.sprite(200 + (128* i), 250, 'btn_action',0);
-    //     btn_action.id_slot_action = i;
-    //     btn_action.action_id = 0;
-    //     btn_action.inputEnabled = false;
-    //     btn_action.events.onInputDown.add(this.onAddAction, this);
-    //     this.btnsAction.push(btn_action);
-    // }
-
-    // for(var i = 0; i < 2; i++)
-    // {
-    //     var btn_action = this.add.sprite(264 + (128* i), 400, 'btn_action',0);
-    //     btn_action.id_slot_action = i+3;
-    //     btn_action.action_id = 0;
-    //     btn_action.inputEnabled = false;
-    //     btn_action.events.onInputDown.add(this.onAddAction, this);
-    //     this.btnsAction.push(btn_action);
-    // }
-
-}
-
-Main.Play.prototype.act = function()
-{
-    console.log("Move");
 }
 
 Main.Play.prototype.setup_screen_2 = function()
