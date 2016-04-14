@@ -10,10 +10,9 @@ Main.MainMenu.prototype.create = function()
 {
     console.log("MainMenu");
     console.log(Main.airconsole);
-    //affichage du titre
-    this.title = this.game.add.text(this.game.world.width/2-250, 64, 'RETARDED BATTLE REVENGE', { fontSize: '32px', fill: '#fff' });
-    this.infoNeedMorePlayer = this.game.add.text(0, 0, '', { fontSize: '32px', fill: '#fff', boundsAlignH: "center", boundsAlignV: "middle" });
-    this.infoNeedMorePlayer.setTextBounds(0, 300, 800, 100);
+    
+    //Affichage du HUD
+    this.displayHUD();
 
     var that = this;
     //Si un joueur ce connecte
@@ -106,4 +105,25 @@ Main.MainMenu.prototype.checkFourPlayer = function()
             this.infoNeedMorePlayer.text = "Besoin de 3 joueurs supplémentaire !";
         }
     }
+}
+
+Main.MainMenu.prototype.displayHUD = function()
+{
+    // Titre
+    this.title = this.game.add.text(this.game.world.width/2, 64, 'Retarded Battle Revenge', { font: "128px norse", fill: "#ffffff" });
+    this.title.anchor.x = 0.5;
+    
+    // Statut nombre de joueurs
+    this.infoNeedMorePlayer = this.game.add.text(0, 0, '', { fontSize: '32px', fill: '#fff', boundsAlignH: "center", boundsAlignV: "middle" });
+    this.infoNeedMorePlayer.setTextBounds(0, 300, 800, 100);
+    
+    // Logo Isart
+    this.logoIsart = this.add.sprite(0, 1000, "isart_logo");
+    this.logoIsart.scale.setTo(0.4, 0.4);
+    this.logoIsart.anchor.y = 1;
+    
+    // Logo Gameweek
+    this.logoGameweek = this.add.sprite(1650, 1000, "gw_logo");
+    this.logoGameweek.scale.setTo(0.3, 0.3);
+    this.logoGameweek.anchor.y = 1;
 }
