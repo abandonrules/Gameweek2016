@@ -136,7 +136,7 @@ Main.Play.prototype.setupGame = function()
 
 Main.Play.prototype.setup_screen_1 = function()
 {
-    var textInfo = this.add.text(300, 200, "Deplacement", Main.styleTextInfo);
+    var textInfo = this.add.text(320, 200, "Deplacement", Main.styleTextInfo);
     textInfo.anchor.set(0.5);
 
     this.btnsAction = [];
@@ -146,21 +146,38 @@ Main.Play.prototype.setup_screen_1 = function()
     // this.btnValidation.inputEnabled = false;
     // this.btnValidation.visible = false;
 
-    var btn_up = this.add.sprite(200, 250, 'btn_action', 0);
+    var btn_up = this.add.sprite(250, 250, 'btn_action', 0);
     btn_up.inputEnabled = true;
-    btn_up.events.onInputDown(this.act, this);
+   // btn_up.events.onInputDown(this.act, this);
 
-    var btn_right = this.add.sprite(328, 378, 'btn_action', 0);
+    var btn_right = this.add.sprite(378, 378, 'btn_action', 0);
     btn_right.inputEnabled = true;
-    btn_right.events.onInputDown(this.act, this);
+  //  btn_right.events.onInputDown(this.act, this);
 
-    var btn_down = this.add.sprite(200, 378, 'btn_action', 0);
+    var btn_down = this.add.sprite(250, 378, 'btn_action', 0);
     btn_down.inputEnabled = true;
-    btn_down.events.onInputDown(this.act, this);
+ //   btn_down.events.onInputDown(this.act, this);
 
-    var btn_left = this.add.sprite(72, 378, 'btn_action', 0);
+    var btn_left = this.add.sprite(122, 378, 'btn_action', 0);
     btn_left.inputEnabled = true;
-    btn_left.events.onInputDown(this.act, this);
+ //   btn_down.events.onInputDown(this.act, this);
+
+
+    var textResume = this.add.text(615, 100, "Resume", Main.styleTextInfo);
+    textResume.anchor.set(0.5);
+
+    var btn_left = this.add.sprite(550, 122, 'btn_action', 0);
+    btn_left.inputEnabled = true;
+ //   btn_down.events.onInputDown(this.act, this);
+    var btn_left = this.add.sprite(550, 250, 'btn_action', 0);
+    btn_left.inputEnabled = true;
+//   btn_down.events.onInputDown(this.act, this);
+    var btn_left = this.add.sprite(550, 378, 'btn_action', 0);
+    btn_left.inputEnabled = true;
+//   btn_down.events.onInputDown(this.act, this);
+
+
+
     // for(var i = 0; i < 3; i++)
     // {
     //     var btn_action = this.add.sprite(200 + (128* i), 250, 'btn_action',0);
