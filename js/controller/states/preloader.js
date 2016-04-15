@@ -31,33 +31,17 @@ Main.Preloader.prototype.init = function()
 
 Main.Preloader.prototype.preload = function()
 {
-//	this.game.load.image('arrow_up', 'assets/controller/arrow_up.png');
-//    this.game.load.image('arrow_down', 'assets/controller/arrow_down.png');
-//    this.game.load.image('arrow_left', 'assets/controller/arrow_left.png');
-//    this.game.load.image('arrow_right', 'assets/controller/arrow_right.png');
-
-    //this.load.atlas('generic', 'assets/controller/generic-joystick.png', 'assets/controller/generic-joystick.json');
-//    this.load.atlas('dpad', 'assets/controller/dpad.png', 'assets/controller/dpad.json');
-		/*
-		this.game.load.spritesheet('button_valid', 'assets/controller/btn_valid.png', 128,128);
-		this.game.load.image('imgBackgroundBlue', 'assets/controller/backgroundBlue.png');
-		this.game.load.image('imgBackgroundGreen', 'assets/controller/backgroundGreen.png');
-		this.game.load.image('imgBackgroundOrange', 'assets/controller/backgroundOrange.png');
-		this.game.load.image('imgBackgroundPurple', 'assets/controller/backgroundPurple.png');
-
-		this.game.load.spritesheet('bumperButton', 'assets/controller/bumper.png');
-		this.game.load.spritesheet('copieButton', 'assets/controller/copie.png');
-		this.game.load.spritesheet('deplacementButton', 'assets/controller/deplacement.png');
-		this.game.load.spritesheet('equilibreButton', 'assets/controller/equilibre.png');
-		this.game.load.spritesheet('invincibiliteButton', 'assets/controller/invincibilite.png');
-		this.game.load.spritesheet('flammeButton', 'assets/controller/flamme.png');
-		this.game.load.spritesheet('soinButton', 'assets/controller/soin.png');
-		this.game.load.spritesheet('supprButton', 'assets/controller/suppr.png');
-		this.game.load.spritesheet('teleportButton','assets/controller/teleport.png');
-		*/
-		this.game.load.spritesheet('button_valid', 'assets/controller/btn_valid.png', 128,128);
-		this.game.load.spritesheet('bg_play','assets/controller/bg_play.png',800,600);
-		this.game.load.spritesheet('btn_action','assets/controller/btn_action.png',128,128);
+	this.game.load.spritesheet('button_valid', 'assets/controller/btn_valid.png', 128,128);
+	this.game.load.spritesheet('bg_play','assets/controller/bg_play.png',800,600);
+	this.game.load.spritesheet('btn_action','assets/controller/btn_action.png',128,128);
+	this.game.load.spritesheet('btn_start','assets/controller/btn_start_2.png',200,100);
+	this.game.load.spritesheet('btn_ready','assets/controller/btn_ready.png',200,100);
+	this.game.load.spritesheet('btn_dir','assets/controller/btn_dir.png',128,128);
+	
+	this.game.load.image('bg_title', 'assets/controller/bg_title.jpg');
+    this.game.load.image('bg_gameover', 'assets/controller/bg_gameover.jpg');
+    
+	//this.game.load.image('logo_gameweek', 'assets/screen/logo_gameweek.png');
 }
 
 Main.Preloader.prototype.fileLoaded = function(progress)
@@ -82,5 +66,5 @@ Main.Preloader.prototype.create = function()
 
 Main.Preloader.prototype.onStart = function()
 {
-	this.state.start('Play');
+	this.state.start('MainMenu');
 }

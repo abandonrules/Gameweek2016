@@ -32,15 +32,19 @@ Main.Preloader.prototype.init = function()
 
 Main.Preloader.prototype.preload = function()
 {
-	
-    //this.game.load.spritesheet('dude', 'assets/screen/dude.png', 32, 48);
     this.game.load.image('tileset', 'assets/screen/tileset.png');
     this.game.load.tilemap('map', 'assets/screen/Map_1.json', null, Phaser.Tilemap.TILED_JSON);
     this.game.load.image('bg', 'assets/screen/bg.jpg');
+
+    this.game.load.image('bg_title', 'assets/screen/bg_title.png');
+    this.game.load.image('bg_gameover', 'assets/screen/bg_gameover.jpg');
+
     this.game.load.image('hud_valid', 'assets/screen/hud_valid.png');
     this.game.load.spritesheet('tiles', 'assets/screen/tiles.png', 80, 80);
     this.game.load.spritesheet('players', 'assets/screen/players.png', 80, 80);
     this.game.load.spritesheet('hearts', 'assets/screen/hearts.png', 384, 128);
+    //this.game.load.image('logo_gameweek', 'assets/screen/logo_gameweek.png');
+
     this.load.onFileComplete.add(this.fileLoaded, this);
 }
 

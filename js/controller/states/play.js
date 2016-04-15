@@ -8,18 +8,22 @@ Main.Play = function(game)
     this.hp = 3;
     this.pa = this.base_pa = 3;
     this.timer = 0;
-    this.actions = [3];
-    this.bonus = [3];
+    this.actions = new Array();
+    this.bonus = new Array();
+    this.isDead = false;
+
+     //ACTION
+    this.id_actionCurrent = undefined;
+
+    //this.id_slotActionCurrent = 0;
+    //this.id_typeAction = 0;
+
+
+
     //BG
     this.bgs = [];
-
     //STATE
     this.state = 0;
-
-    //ACTION
-    this.id_actionCurrent = 0;
-    this.id_slotActionCurrent = 0;
-    this.id_typeAction = 0;
 
     //BTN ADD ACTION
     this.btnsAction = [];
@@ -34,28 +38,37 @@ Main.Play = function(game)
 
     //BTN VALIDATION
     this.btnValidation = null;
-}
 
+    //VERSION 2
+    this.bg = null;
+    this.slotAction = new Array();
+    this.btns_dir = new Array();
+    this.btns_actions = new Array();
+    this.display_pa = null;
+
+    this.dirCurrent = {
+        x:null,
+        y:null
+    }
+}
 
 Main.Play.prototype.create = function()
 {
 	console.log("Play");
     //setup game
     this.setupGame();
+
     this.setupConsole();
     Main.airconsole.message(AirConsole.SCREEN, {action: "get_info_player"});
-
-   // var truc = this.game.add.button(0, 0 , 'button_valid', this.debugGameOver, this, null, 0,1,2);
-}
-
-Main.Play.prototype.debugGameOver = function()
-{
-    this.state.start('GameOver');
 }
 
 Main.Play.prototype.update = function()
 {
    //console.log("hello");
+   if(this.display_pa !== null)
+   {
+        this.display_pa.text = "PA: "+this.pa;
+   }
 }
 
 Main.Play.prototype.getInfos = function(data)
@@ -63,10 +76,11 @@ Main.Play.prototype.getInfos = function(data)
     console.log(data.info_player);
     this.base_pa = this.pa = data.info_player.pa || 3;
     this.hp = data.info_player.hp || 3;
-    this.bonus = data.info_player.bonus || [3];
+    this.bonus = data.info_player.bonus || [];
     this.numberPlayer = data.info_player.number_player;
-    console.log(data.info_player.number_player);
-    console.log(this.numberPlayer);
+
+    //console.log(data.info_player.number_player);
+    //console.log(this.numberPlayer);
 
     this.refreshBG();
     this.newTurn();
@@ -74,7 +88,10 @@ Main.Play.prototype.getInfos = function(data)
 
 Main.Play.prototype.newTurn = function()
 {
-    this.resetBTNAction();
+    this.unlockAction();
+    this.hideSlotAction();
+    this.actions = new Array();
+    
 }
 
 Main.Play.prototype.setupConsole = function()
@@ -82,110 +99,301 @@ Main.Play.prototype.setupConsole = function()
     var that = this;
     Main.airconsole.onMessage = function(from, data) 
     {
-       //console.log(data);
+       console.log(data);
        
-        if(data.info_player !== undefined)
+        if(data.info_player !== undefined && !that.isDead)
         {
             that.getInfos(data);
-            //that.newTurn();
+        }
+       
+        if(data.action === "end_turn")
+        {
+             that.lockAction();
+             //
         }
 
-        if(from == Main.airconsole.SCREEN && data.info_player !== undefined)
+        if(data.action === "end_game")
         {
-            that.getInfos(data);
-            that.newTurn();
+            this.state.start('Gameover');
         }
 
-        if(from == Main.airconsole.SCREEN && data.action === "end_turn")
+        if(data.action === "game_over")
         {
-             that.lockBTNAction();
-        }
-
-        if(from == Main.airconsole.SCREEN && data.action === "new_game")
-        {
-            that.getInfos(data.info_player);
-            that.newTurn();
+           that.isDead = true;
+           that.displayGameover();
+           that.lockAction();
+           that.hideSlotAction();
+           that.btnValidation.inputEnabled = false;
+           that.btnValidation.visible = false;
         }
     }
 }
 
 Main.Play.prototype.setupGame = function()
 {
-    //envoie d'un message pour avoir les infos du joueur
-    //setup screens
-    this.world.setBounds(0, 0, 800, 1800);
-
-    this.bgs = [];
-    
-    for(var i = 0; i < 3; i++)
-    {
-        this.bgs.push(this.add.sprite(0, i*600, 'bg_play',this.numberPlayer));
-    }
-    this.setup_screen_1();
-    // this.setup_screen_2();
-    // this.setup_screen_3();
-
     //DEBUG
-    //this.resetBTNAction();
-    /*
-    this.bgs.inputEnabled = true;
-    this.arrow_right.anchor.set(0.5);
-    this.arrow_right.events.onInputOver.add(this.onRight, this);
-    */
+
+    this.bg = this.add.sprite(0, 0, 'bg_play',this.numberPlayer*2);
+    this.display_pa = this.add.text(60, 60, "", Main.styleTextInfo);
+    this.display_pa.anchor.set(0.5);
+
+    this.setup_slotAction();
+    this.setup_btnDirection();
+    this.setup_btnActions();
 }
 
+Main.Play.prototype.setup_slotAction = function()
+{
+    this.slotAction = [];
+    for(var i = 0; i < 3; i++)
+    {
+        var btn_action = this.add.sprite(200 + (128* i), 128, 'btn_action',0);
+        btn_action.visible = false;
+        this.slotAction.push(btn_action);
+    }
+}
+
+Main.Play.prototype.visibleSlotAction = function()
+{
+    console.log('visibleSlotAction');
+    console.log( this.actions);
+
+    for(var i = 0; i < this.actions.length; i++)
+    {
+        if(this.actions[i].id_action !== undefined)
+        {
+            this.slotAction[i].visible = true;
+            this.slotAction[i].frame = this.actions[i].id_action;
+        }
+    }
+}
+
+Main.Play.prototype.hideSlotAction = function()
+{
+    for(var i = 0; i < this.slotAction.length; i++)
+    {
+    
+        this.slotAction[i].visible = false;
+        this.slotAction[i].frame = 0;
+        
+    }
+}
+
+Main.Play.prototype.setup_btnDirection = function()
+{
+    this.btns_dir = [];
+    //UP
+    var btn_pos = this.add.sprite(96, 300, 'btn_action',1);
+    btn_pos.posX =  0;
+    btn_pos.posY = -1;
+    btn_pos.scale.setTo(0.4,0.4);
+    btn_pos.inputEnabled = false;
+    btn_pos.visible = false;
+    btn_pos.events.onInputDown.add(this.onChoseDirection, this);
+    this.btns_dir.push(btn_pos);
+    
+
+    //DOWN
+    var btn_pos = this.add.sprite(96, 300+(64*2), 'btn_action',1);
+    btn_pos.posX = 0;
+    btn_pos.posY = 1;
+    btn_pos.scale.setTo(0.4,0.4);
+    btn_pos.inputEnabled = false;
+    btn_pos.visible = false;
+    btn_pos.events.onInputDown.add(this.onChoseDirection, this);
+    this.btns_dir.push(btn_pos);
+
+    //LEFT
+    var btn_pos = this.add.sprite(16, 360, 'btn_action',1);
+    btn_pos.posX = -1;
+    btn_pos.posY = 0;
+    btn_pos.scale.setTo(0.4,0.4);
+    btn_pos.inputEnabled = false;
+    btn_pos.visible = false;
+    btn_pos.events.onInputDown.add(this.onChoseDirection, this);
+    this.btns_dir.push(btn_pos);
+
+    //RIGHT
+    var btn_pos = this.add.sprite(176, 360, 'btn_action',1);
+    btn_pos.posX = 1;
+    btn_pos.posY = 0;
+    btn_pos.scale.setTo(0.4,0.4);
+    btn_pos.inputEnabled = false;
+    btn_pos.visible = false;
+    btn_pos.events.onInputDown.add(this.onChoseDirection, this);
+    this.btns_dir.push(btn_pos);
+
+}
+
+Main.Play.prototype.onChoseDirection = function(btn)
+{
+    console.log("onChoseDirection");
+
+
+    this.dirCurrent.x = btn.posX;
+    this.dirCurrent.y = btn.posY;
+
+    console.log(this.dirCurrent);
+    console.log(this.id_actionCurrent)
+
+    if(this.checkValidation())
+    {
+       this.validationAction();
+    }
+
+}
+
+
+Main.Play.prototype.setup_btnActions = function()
+{
+    this.btns_actions = [];
+
+    //btn move
+    var btn_move = this.add.sprite(368, 340, 'btn_action',5);
+    btn_move.id_action = 5;
+    btn_move.inputEnabled = false;
+    btn_move.visible = false;
+    btn_move.events.onInputDown.add(this.onTypeAction, this);
+    this.btns_actions.push(btn_move);
+
+    //btn fight
+    var btn_fight = this.add.sprite(560, 340, 'btn_action',2);
+    btn_fight.id_action = 2;
+    btn_fight.inputEnabled = false;
+    btn_fight.visible = false;
+    btn_fight.events.onInputDown.add(this.onTypeAction, this);
+    this.btns_actions.push(btn_fight);
+}
+
+Main.Play.prototype.onTypeAction = function(btn)
+{
+    console.log('onTypeAction');
+    this.id_actionCurrent = btn.id_action;
+
+    console.log(this.dirCurrent);
+    console.log(this.id_actionCurrent)
+
+    if(this.checkValidation())
+    {
+        this.validationAction();
+    }
+}
+
+Main.Play.prototype.validationAction = function()
+{
+    console.log('validationAction');
+    var action = new Action(1,this.dirCurrent.x,this.dirCurrent.y,this.id_actionCurrent);
+    this.actions.push(action);
+    this.resetAction();
+
+    this.visibleSlotAction();
+    //send data
+    Main.airconsole.message(AirConsole.SCREEN, {action_list_player: this.actions});
+
+    this.checkEndTurn();
+}
+
+Main.Play.prototype.checkValidation = function()
+{
+    console.log("checkValidation");
+
+    if(this.dirCurrent.x !== null && this.dirCurrent.y !== null && this.id_actionCurrent !== undefined && this.pa > 0)
+    {
+        return true;
+    }
+    return false;
+}
+
+Main.Play.prototype.checkEndTurn = function()
+{
+    if(this.pa <= 0)
+    {
+        this.lockAction();
+    }
+}
+
+Main.Play.prototype.resetAction = function()
+{
+    this.dirCurrent.x = null;
+    this.dirCurrent.y = null;
+    this.id_actionCurrent = undefined;
+    this.pa --;
+}
+
+Main.Play.prototype.refreshBG = function()
+{
+    this.bg.frame = this.numberPlayer*2;
+}
+
+Main.Play.prototype.displayGameover = function()
+{
+    this.bg.frame = (this.numberPlayer*2)+1;
+}
+
+Main.Play.prototype.lockAction = function()
+{
+    for(var i = 0; i < this.btns_dir.length; i++)
+    {
+        this.btns_dir[i].inputEnabled = false;
+        this.btns_dir[i].visible = false;
+    }
+
+    //LOCK BTN ACTIONS
+    for(var i =0; i < this.btns_actions.length; i++)
+    {
+        this.btns_actions[i].inputEnabled = false;
+        this.btns_actions[i].visible = false;
+    }
+}
+
+Main.Play.prototype.unlockAction = function()
+{
+    for(var i = 0; i < this.btns_dir.length; i++)
+    {
+        this.btns_dir[i].inputEnabled = true;
+        this.btns_dir[i].visible = true;
+    }
+
+    //LOCK BTN ACTIONS
+    for(var i =0; i < this.btns_actions.length; i++)
+    {
+        this.btns_actions[i].inputEnabled = true;
+        this.btns_actions[i].visible = true;
+    }
+}
+/*
 Main.Play.prototype.setup_screen_1 = function()
 {
-    var textInfo = this.add.text(300, 200, "Deplacement", Main.styleTextInfo);
+    var textInfo = this.add.text(400, 150, "Ajoute des actions pour ce tour", Main.styleTextInfo);
     textInfo.anchor.set(0.5);
 
     this.btnsAction = [];
 
-    // this.btnValidation =  this.game.add.button(740, 550 , 'button_valid', this.onValidation, this, null, 0,1,2);
-    // this.btnValidation.anchor.set(1,1);
-    // this.btnValidation.inputEnabled = false;
-    // this.btnValidation.visible = false;
+    this.btnValidation =  this.game.add.button(740, 550 , 'button_valid', this.onValidation, this, null, 0,1,2);
+    this.btnValidation.anchor.set(1,1);
+    this.btnValidation.inputEnabled = false;
+    this.btnValidation.visible = false;
 
-    var btn_up = this.add.sprite(200, 250, 'btn_action', 0);
-    btn_up.inputEnabled = true;
-    btn_up.events.onInputDown(this.act, this);
+    for(var i = 0; i < 3; i++)
+    {
+        var btn_action = this.add.sprite(200 + (128* i), 250, 'btn_action',0);
+        btn_action.id_slot_action = i;
+        btn_action.action_id = 0;
+        btn_action.inputEnabled = false;
+        btn_action.events.onInputDown.add(this.onAddAction, this);
+        this.btnsAction.push(btn_action);
+    }
 
-    var btn_right = this.add.sprite(328, 378, 'btn_action', 0);
-    btn_right.inputEnabled = true;
-    btn_right.events.onInputDown(this.act, this);
+    for(var i = 0; i < 2; i++)
+    {
+        var btn_action = this.add.sprite(264 + (128* i), 400, 'btn_action',0);
+        btn_action.id_slot_action = i+3;
+        btn_action.action_id = 0;
+        btn_action.inputEnabled = false;
+        btn_action.events.onInputDown.add(this.onAddAction, this);
+        this.btnsAction.push(btn_action);
+    }
 
-    var btn_down = this.add.sprite(200, 378, 'btn_action', 0);
-    btn_down.inputEnabled = true;
-    btn_down.events.onInputDown(this.act, this);
-
-    var btn_left = this.add.sprite(72, 378, 'btn_action', 0);
-    btn_left.inputEnabled = true;
-    btn_left.events.onInputDown(this.act, this);
-    // for(var i = 0; i < 3; i++)
-    // {
-    //     var btn_action = this.add.sprite(200 + (128* i), 250, 'btn_action',0);
-    //     btn_action.id_slot_action = i;
-    //     btn_action.action_id = 0;
-    //     btn_action.inputEnabled = false;
-    //     btn_action.events.onInputDown.add(this.onAddAction, this);
-    //     this.btnsAction.push(btn_action);
-    // }
-
-    // for(var i = 0; i < 2; i++)
-    // {
-    //     var btn_action = this.add.sprite(264 + (128* i), 400, 'btn_action',0);
-    //     btn_action.id_slot_action = i+3;
-    //     btn_action.action_id = 0;
-    //     btn_action.inputEnabled = false;
-    //     btn_action.events.onInputDown.add(this.onAddAction, this);
-    //     this.btnsAction.push(btn_action);
-    // }
-
-}
-
-Main.Play.prototype.act = function()
-{
-    console.log("Move");
 }
 
 Main.Play.prototype.setup_screen_2 = function()
@@ -335,7 +543,9 @@ Main.Play.prototype.setup_btnPosType_2 = function()
         this.btnsPosType_2.push(btn_pos);
     }
 }
+*/
 
+/*
 Main.Play.prototype.visibleBTNPos_type1 = function()
 {
     for(var i = 0; i < this.btnsPosType_1.length; i ++)
@@ -371,35 +581,10 @@ Main.Play.prototype.hideBTNPos_type2 = function()
         this.btnsPosType_2[i].inputEnabled = false;
     }
 }
-Main.Play.prototype.refreshBG = function()
-{
-    console.log(this.bgs);
-    for(var i = 0; i < 3; i++)
-    {
-        this.bgs[i].frame = this.numberPlayer;
-    }
-}
 
-Main.Play.prototype.moveScreen = function(state)
-{
-    switch(state)
-    {
-        case "add_action":
-            this.camera.setPosition(0,0);
-            break;
-        case "choise_type_action":
-            this.camera.setPosition(0,600);
-            break;
-        case "choise_direction":
-            this.camera.setPosition(0,1200);
-            break;
-    }
-}
 
 Main.Play.prototype.onValidation = function(btn)
 {
-    //Main.airconsole.message(AirConsole.SCREEN, )
-
     //lock les butons actions
     this.lockBTNAction();
     //on envoie les actions du joueur
@@ -409,7 +594,7 @@ Main.Play.prototype.onValidation = function(btn)
 
 Main.Play.prototype.lockBTNAction = function()
 {
-    for(var i = 0; i < this.btnsAction; i++)
+    for(var i = 0; i < this.btnsAction.length; i++)
     {
         this.btnsAction[i].inputEnabled = false;
     }
@@ -421,6 +606,16 @@ Main.Play.prototype.onAddAction = function(btn)
 {
     this.id_slotActionCurrent = btn.id_slot_action;
     this.moveScreen("choise_type_action");
+}
+
+Main.Play.prototype.hideBTNaction = function()
+{
+    for(var i = 0; i < this.btnsAction.length; i++)
+    {
+        this.btnsAction[i].inputEnabled = false;
+        this.btnsAction[i].visible = false;
+    }
+    this.pa = 0;
 }
 
 Main.Play.prototype.onMoveAction = function(btn)
@@ -473,7 +668,7 @@ Main.Play.prototype.onChosePosition = function(btn)
 
 Main.Play.prototype.resetBTNAction = function()
 {
-    this.actions = [3];
+    this.actions = new Array();
     var pa = this.pa;
     for(var i = 0; i < this.btnsAction.length; i++)
     {
@@ -487,7 +682,7 @@ Main.Play.prototype.resetBTNAction = function()
     }
     this.moveScreen("add_action");
 }
-
+*/
 function Action(type,x,y,id_action)
 {
     this.type = type;

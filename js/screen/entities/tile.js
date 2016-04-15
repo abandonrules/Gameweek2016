@@ -3,8 +3,9 @@ function Tile(game, x, y, frame)
 	Phaser.Sprite.call(this, game, x, y, 'tiles', frame);
 	this.hp = frame;
 	this.anchor.setTo(0.5, 0.5);
-	this.playerHere = false;
+	this.playerHere = null;
 	this.bonus = false;
+	this.isDead = false;
 	//console.log(Main);
 }
 
@@ -21,6 +22,14 @@ Tile.prototype.update = function()
 	if(this.hp >= 0)
 	{
 		this.frame = this.hp;
+	}
+	else if(!this.isDead)
+	{
+		this.isDead = true;
+		var cellX = this.position.x / 80;
+		var cellY = this.position.y / 80;
+		Main.Play.tilesList[cellX+'_'+cellY] = null;
+		this.animationFall();
 	}
 }
 
