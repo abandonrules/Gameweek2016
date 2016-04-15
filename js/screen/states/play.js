@@ -3,7 +3,6 @@ Main.Play = function(game)
 {
     this.timerByTurn = 5;
     this.players = [];
-    this.currentPlayerAlive = 4;
     this.bonusList = [];
     this.startGame = 0;
     //MAP
@@ -54,7 +53,10 @@ Main.Play = function(game)
     this.actionCurrent = 0;
     this.finish = 0;
 
-
+    //ANIMATION
+    this.bg_mouse = null;
+    this.bg_mouse_2 = null;
+    this.bg_fond = null;
 };
 
 Main.Play.prototype.create = function()
@@ -94,7 +96,6 @@ Main.Play.prototype.update = function()
     {
         this.infoChrono.text = ""+(this.timerByTurn-(Math.round(this.timer.ms/1000)));
     }
-<<<<<<< HEAD
 
     if(this.UIManagerReady)
     {
@@ -148,16 +149,35 @@ Main.Play.prototype.update = function()
             this.ui_resetReady();
             this.sendInfoController();
             this.setupTimer();
+            this.decomposition();
             this.checkEndGame();
             Main.endTurn = false;
         }  
-=======
-    
-    // Check du gameover
-    if (this.currentPlayerAlive == 0)
+    }
+}
+
+Main.Play.prototype.decomposition = function()
+{
+    console.log("decomposition");
+
+    for(var i = 0; i < this.players.length; i ++)
     {
-        this.state.start('MainMenu');   
->>>>>>> origin/master
+        if(!this.players[i].isDead)
+        {
+            var cellX = this.players[i].position.x /80;
+            var cellY = this.players[i].position.y /80;
+
+            if(Main.Play.tilesList[cellX+'_'+cellY] !== null)
+            {
+                Main.Play.tilesList[cellX+'_'+cellY].hp -= 1;
+            }
+           
+
+            if(Main.Play.tilesList[cellX+'_'+cellY].hp < 0)
+            {
+                this.players[i].dead();
+            }
+        }
     }
 }
 
@@ -442,6 +462,12 @@ Main.Play.prototype.endTurn = function()
 Main.Play.prototype.createMap = function()
 {
 
+    //ANIMATIONS
+    this.bg_fond = this.add.image(0, 0, 'bg_fond');
+    this.bg_mouse = this.add.image(0, 0, 'bg_mouse_1');
+    var tween = this.game.add.tween(this.bg_mouse.position).to( { x: 64 }, 2000, "Linear", true, 0, -1,true);
+    this.bg_mouse_2 = this.add.image(0, 0, 'bg_mouse_2');
+    var tween = this.game.add.tween(this.bg_mouse_2.position).to( { x: -64 }, 2000, "Linear", true, 0, -1,true);
     //BACKGROUND
     this.background = this.add.image(0, 0, 'bg');
 

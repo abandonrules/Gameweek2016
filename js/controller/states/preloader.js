@@ -40,8 +40,6 @@ Main.Preloader.prototype.preload = function()
 	
 	this.game.load.image('bg_title', 'assets/controller/bg_title.jpg');
     this.game.load.image('bg_gameover', 'assets/controller/bg_gameover.jpg');
-    
-	//this.game.load.image('logo_gameweek', 'assets/screen/logo_gameweek.png');
 }
 
 Main.Preloader.prototype.fileLoaded = function(progress)
@@ -66,5 +64,6 @@ Main.Preloader.prototype.create = function()
 
 Main.Preloader.prototype.onStart = function()
 {
+	//this.state.start('Play');
 	this.state.start('MainMenu');
 }
