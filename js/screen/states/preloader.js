@@ -40,6 +40,8 @@ Main.Preloader.prototype.preload = function()
     this.game.load.image('bg_gameover', 'assets/screen/bg_gameover.jpg');
 
     this.game.load.image('hud_valid', 'assets/screen/hud_valid.png');
+    this.game.load.image('isart_logo', 'assets/screen/isart_logo.png');
+    this.game.load.image('gw_logo', 'assets/screen/gw_logo.png');
     this.game.load.spritesheet('tiles', 'assets/screen/tiles.png', 80, 80);
     this.game.load.spritesheet('players', 'assets/screen/players.png', 80, 80);
     this.game.load.spritesheet('hearts', 'assets/screen/hearts.png', 384, 128);
@@ -70,6 +72,6 @@ Main.Preloader.prototype.create = function()
 
 Main.Preloader.prototype.onStart = function()
 {
-	this.state.start('MainMenu');
-	//this.state.start('Play');
+	//this.state.start('MainMenu');
+	this.state.start('Play');
 }

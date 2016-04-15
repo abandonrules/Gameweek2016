@@ -20,7 +20,11 @@
 		game.state.add('Preloader', Main.Preloader);
 		game.state.add('MainMenu', Main.MainMenu);
 		game.state.add('Play', Main.Play);
+<<<<<<< HEAD
 		game.state.add('Gameover', Main.Gameover);
+=======
+        game.state.add('GameOver', Main.GameOver);
+>>>>>>> origin/master
 
 		game.state.start('Boot');
 	}

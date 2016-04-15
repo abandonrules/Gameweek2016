@@ -3,6 +3,7 @@ Main.Play = function(game)
 {
     this.timerByTurn = 5;
     this.players = [];
+    this.currentPlayerAlive = 4;
     this.bonusList = [];
     this.startGame = 0;
     //MAP
@@ -93,6 +94,7 @@ Main.Play.prototype.update = function()
     {
         this.infoChrono.text = ""+(this.timerByTurn-(Math.round(this.timer.ms/1000)));
     }
+<<<<<<< HEAD
 
     if(this.UIManagerReady)
     {
@@ -149,6 +151,13 @@ Main.Play.prototype.update = function()
             this.checkEndGame();
             Main.endTurn = false;
         }  
+=======
+    
+    // Check du gameover
+    if (this.currentPlayerAlive == 0)
+    {
+        this.state.start('MainMenu');   
+>>>>>>> origin/master
     }
 }
 
